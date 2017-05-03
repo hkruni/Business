@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
+    <title>管理系统</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/bootstrap-maizi.css"/>
+    <link rel="stylesheet" href="/static/css/bootstrap-editable.css"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.11.0/bootstrap-table.css"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap3-dialog/1.35.4/css/bootstrap-dialog.min.css"/>
+</head>
+<body>
+<!--导航-->
+{% include 'nav.html'%}  
+
+
+<div style="margin-top:30px">
+	<ul id="myTab" class="nav nav-tabs">
+	  <li  class="active"><a href="#worker" data-toggle="tab">工人信息</a></li>
+	  <li><a href="#salary" data-toggle="tab">薪酬发放</a></li>
+	  <li><a href="#attendance" data-toggle="tab"> 考勤管理</a></li>
+	</ul>
+	<div id="myTabContent" class="tab-content">
+	   <div class="tab-pane fade in active" id="worker">
+		  <table id="worker_info"></table>
+	   </div>
+	   <div class="tab-pane fade" id="salary">
+	      <div id="salary_toolbar" class="btn-group">
+		        <button id="btn_add_salary" type="button" class="btn btn-default">
+		            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+		        </button>
+    	  </div>
+		  <table id="salary_info"></table>
+	   </div>
+	   <div class="tab-pane fade" id="attendance">
+	      <div id="attendance_toolbar" class="btn-group">
+		        <button id="btn_add_attendance" type="button" class="btn btn-default">
+		            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+		        </button>
+    	  </div>
+		  <table id="attendance_info"></table>
+	   </div>
+	</div>
+</div>
+
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.0/bootstrap-table.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap3-dialog/1.35.4/js/bootstrap-dialog.min.js"></script>
+<script src="https://cdn.bootcss.com/bootbox.js/4.4.0/bootbox.js"></script>
+<script src="/static/js/bootstrap-editable.js"></script>
+<script src="/static/js/bootstrap-table-editable.js"></script>
+<script src="/static/js/combodate.js"></script>
+<script src="/static/js/salary.js"></script>
+<script src="/static/js/moment.min.js"></script>
+<script src="/static/js/function.js"></script>
+
+</body>
+</html>

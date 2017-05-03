@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
+    <title>管理系统</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/bootstrap-maizi.css"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.11.0/bootstrap-table.css"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css"/>
+    <link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.min.css"/>
+   	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+{% include 'nav.html'%}  
+
+<ul id="myTab" class="nav nav-tabs">
+  <li class="active"><a href="#order" data-toggle="tab">进供货物</a></li>
+  <li><a href="#money" data-toggle="tab">回款情况</a></li>
+</ul>
+
+<div id="myTabContent" class="tab-content">
+   <div class="tab-pane fade in active" id="order">
+	  <div class="panel-body" style="padding-bottom:0px;">
+		<div class="form-inline"  id="toolbar" style=" margin-bottom: 20px;">
+		   	<div class="form-group">
+	        	<label for="search" class="form-label">单位：</label>
+	 			 <select name = "name" id="search_name" class = "form-control"  style="width:200px">
+	              	<option value = "0">全部</option>
+				</select>
+	 			<label for="search" class="form-label">开始时间：</label>
+	 			<input type="text" id="search_startDate" class="form-control" value="2015-01-01" readonly>
+	 			<label for="search" class="form-label">结束时间：</label>
+	 			<input type="text" id="search_endDate" class="form-control" value="2025-01-01" readonly>
+	 			<label for="search" class="form-label">货物名称：</label>
+	 			<select name = "search_product" id = "search_product"class = "form-control"  style="width:200px">
+	              	<option value = "0">全部</option>
+				</select>
+	 			<input type="submit" id="search_submit"  class="form-control btn-primary" value="查询">
+			</div>
+		 </div>
+		 <div id="toolbar" class="btn-group">
+	        <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+	            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+	        </button>
+	        <button id="btn_edit" type="button" class="btn btn-default">
+	            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+	        </button>
+	        <button id="btn_delete" type="button" class="btn btn-default">
+	            <span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>删除
+	        </button>
+	    </div>
+   	    <table id="order_info"></table>
+	  </div>
+   </div>
+   
+   
+   <div class="tab-pane fade" id="money">
+	  <div class="panel-body" style="padding-bottom:0px;">
+		<div class="form-inline"  id="toolbar_form" style=" margin-bottom: 20px;">
+		   	<div class="form-group">
+	        	<label for="search" class="form-label">单位：</label>
+	 			 <select name = "name" id="search_name" class = "form-control"  style="width:200px">
+	              	<option value = "0">全部</option>
+				</select>
+	 			<label for="search" class="form-label">开始时间：</label>
+	 			<input type="text" id="search_startDate_money" class="form-control"  value='2015-01-01' readonly>
+	 			<label for="search" class="form-label">结束时间：</label>
+	 			<input type="text" id="search_endDate_money" class="form-control" value='' readonly>
+	 			<input type="submit" id="search_submit_money"  class="form-control btn-primary" value="查询">
+			</div>
+		 </div>
+		 <div id="toolbar_money" class="btn-group">
+	        <button id="btn_add_money" type="button" class="btn btn-default" data-toggle="modal" data-target="#myMoneyModal">
+	            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+	        </button>
+	        <button id="btn_edit_money" type="button" class="btn btn-default">
+	            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+	        </button>
+	        <button id="btn_delete_money" type="button" class="btn btn-default">
+	            <span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>删除
+	        </button>
+	    </div>
+   	    <table id="money_info"></table>
+	  </div>
+   </div>
+   
+   
+   
+</div>
+
+
+
+
+
+
+
+<!-- 进供货Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- 禁止input使用缓存提示 -->
+      <form autocomplete="off" id= "form" action="addOrder" method="post">{% csrf_token %}
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增信息</h4>
+      </div>
+      <div class="modal-body">
+
+          <input type="hidden" name="id" value="0"/>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label" >单位:</label>
+            	<select id = "name" name = "name" class = "form-control"  style="width:200px">
+			</select>
+          </div>
+          <div class="form-group form-inline">
+            <label for="recipient-name" class="control-label" style="width:50px">进供货:</label>
+            <select name = "type" class = "form-control" style="width:80px">
+			  <option value ="2">进货</option>
+			  <option value ="1">供货</option>
+			</select>
+			<label for="recipient-name" class="control-label" style="width:60px;margin-left:20px">货物名称:</label>
+            <select id = "product" name = "product" class = "form-control"  style="width:200px">
+              	
+			</select>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">日期:</label>
+            <input type="text" id = "changeDate" class="form-control" name="changeDate" placeholder="日期" required="required" >
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">数量（个或公斤）:</label>
+            <input type="text" class="form-control" name="num" placeholder="帽的单位是个，铜的单位是公斤" required="required" >
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">总价（元）:</label>
+            <input type="number" class="form-control" name="totalPrice" placeholder="本次交易的金额（元），必须填写整数" required="required" >
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">备注:</label>
+            <input type="text" class="form-control" name="detail" placeholder="备注，可以不填写">
+          </div>
+
+         </div>
+        <div class="modal-footer">
+  			<button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+  			<input  type="submit" class="btn btn-primary" value="提交"></button>  
+	 	</div>
+     </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- 回款Modal -->
+<div class="modal fade" id="myMoneyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- 禁止input使用缓存提示 -->
+      <form autocomplete="off" id= "form" action="addMoney" method="post">{% csrf_token %}
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增信息</h4>
+      </div>
+      <div class="modal-body">
+
+          <input type="hidden" name="id" value="0"/>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label" >单位:</label>
+            	<select id = "name_money" name = "name" class = "form-control"  style="width:200px">
+			</select>
+          </div>
+          <div class="form-group form-inline">
+            <label for="recipient-name" class="control-label" style="width:100px">收款/打款:</label>
+            <select name = "type" class = "form-control" style="width:80px">
+			  <option value ="打款">打款</option>
+			  <option value ="打款">收款</option>
+			</select>
+			<label for="recipient-name" class="control-label" style="width:100px;margin-left:30px">交易方式:</label>
+            <select name = "type_change" class = "form-control" style="width:128px">
+			  <option value ="承兑汇票">承兑汇票</option>
+			  <option value ="现金转账">现金转账</option>
+			</select>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">日期:</label>
+            <input type="text" id = "changeDate" class="form-control" name="changeDate" placeholder="日期" required="required" >
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">金额（元）:</label>
+            <input type="number" class="form-control" name="totalPrice" placeholder="本次交易的金额（元），必须填写整数" required="required" >
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">备注:</label>
+            <input type="text" class="form-control" name="detail" placeholder="备注，可以不填写">
+          </div>
+
+         </div>
+        <div class="modal-footer">
+  			<button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+  			<input  type="submit" class="btn btn-primary" value="提交"></button>  
+	 	</div>
+     </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.0/bootstrap-table.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.js"></script>
+<script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+
+<script src="/static/js/order.js"></script>
+<script src="/static/js/function.js"></script>
+<script src="/static/js/bootstrap.autocomplete.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.18.1/moment-with-locales.js"></script>
+
+<script src="/static/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.zh-CN.js"></script>
+
+
+</body>
+</html>

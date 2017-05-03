@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
+    <title>管理系统</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/bootstrap-maizi.css"/>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.5.3/echarts.min.js"></script>
+    <script src="/static/js/mychart.js"></script>
+</head>
+<body>
+{% include 'nav.html'%}  
+
+
+ <span>年份</span>：<select id = "select_order_num">
+ 	<option value = "2016">2016</option>
+ 	<option value = "2017" selected = "selected">2017</option>
+ 	<option value = "2018">2018</option>
+ 	<option value = "2019">2019</option>
+ 	<option value = "2020">2020</option>
+ </select>
+ <span>本年度各种帽销量图<span>
+ <div id="order_num" style="width: 100%;height:550px;"></div>
+
+
+
+</body>
+</html>
